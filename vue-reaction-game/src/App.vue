@@ -1,0 +1,104 @@
+<template>
+
+  <h1>
+    How fast are your reflexes? &#127939;
+  </h1>
+
+  <p>
+    Click on the button and wait until the circle appears <br /> 
+    then click the circle as fast as you can.
+  </p>
+
+  <button @click="start" :disabled="isPlaying">
+    Test your reflexes.
+  </button>
+
+  <Block v-if="isPlaying" :delay="delay" @end="endGame" />
+  <Results v-if="showResults" :score="score" />
+
+</template>
+
+<script>
+import Block from './components/Block.vue'
+import Results from './components/Results.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Block,
+    Results
+   },
+
+  data() {
+    return {
+      isPlaying: false,
+      delay: null,
+      score: null,
+      showResults: false
+    }
+  },  
+
+  methods: {
+    start() {
+      this.delay = 2000 + Math.random() * 5000
+      this.isPlaying = true
+      this.showResults = false
+    },
+
+    endGame(reactionTime) {
+      this.score = reactionTime
+      this.isPlaying = false
+      this.showResults = true
+    }
+  },
+}
+</script>
+
+<style>
+* {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+h1, button {
+  margin: 30px;
+}
+
+button {
+  background-color: #7289da;
+  color: white;
+  
+  font-size: 17px;
+  padding: 15px;
+  border: none;
+}
+
+button:disabled {
+  opacity: 50%;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.block {
+  background-color: #7289da;
+
+  width: 225px;
+  padding: 100px 0;
+  margin: 40px auto;
+  text-align: center;
+  border-radius: 150px;
+}
+
+.block b {
+  color: white;
+}
+
+span {
+  color: #7289da;
+}
+</style>
